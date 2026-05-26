@@ -1,0 +1,28 @@
+{
+  "name": "telemetry-processor",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/telemetry-processor/src",
+  "tags": ["scope:backend", "type:spring-boot"],
+  "targets": {
+    "serve": {
+      "continuous": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\\maven.ps1 spring-boot:run"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\\maven.ps1 -DskipTests package"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\\maven.ps1 test"
+      }
+    }
+  }
+}

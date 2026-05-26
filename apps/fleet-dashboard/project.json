@@ -1,0 +1,87 @@
+{
+  "name": "fleet-dashboard",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "tp",
+  "sourceRoot": "apps/fleet-dashboard/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/fleet-dashboard",
+        "browser": "apps/fleet-dashboard/src/main.ts",
+        "tsConfig": "apps/fleet-dashboard/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/fleet-dashboard/public"
+          }
+        ],
+        "allowedCommonJsDependencies": ["leaflet"],
+        "styles": ["apps/fleet-dashboard/src/styles.scss"]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "5kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "options": {
+        "port": 4200,
+        "proxyConfig": "apps/fleet-dashboard/proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "fleet-dashboard:build:production"
+        },
+        "development": {
+          "buildTarget": "fleet-dashboard:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "watch": false
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "fleet-dashboard:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/fleet-dashboard/browser",
+        "spa": true
+      }
+    }
+  }
+}
