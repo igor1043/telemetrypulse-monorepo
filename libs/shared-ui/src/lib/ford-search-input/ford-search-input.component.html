@@ -1,0 +1,17 @@
+<label class="field">
+  <span class="field__label">{{ label }}</span>
+  <span class="field__control">
+    <span class="field__icon" aria-hidden="true"></span>
+    <input
+      type="search"
+      [value]="value"
+      [placeholder]="placeholder"
+      (input)="updateValue($any($event.target).value)"
+    />
+    @if (value) {
+      <button type="button" aria-label="Limpar busca" (click)="clear()">
+        ×
+      </button>
+    }
+  </span>
+</label>

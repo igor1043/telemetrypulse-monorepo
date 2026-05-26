@@ -1,0 +1,111 @@
+:host {
+  display: block;
+}
+
+.vehicle-card {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--tp-border, #d4dae3);
+  border-radius: 4px;
+  box-shadow: none;
+  color: var(--tp-text-primary, #102a43);
+  cursor: pointer;
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.85rem;
+  text-align: left;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+  width: 100%;
+}
+
+.vehicle-card:hover,
+.vehicle-card--selected {
+  border-color: var(--tp-primary, #337ab7);
+  box-shadow: 0 10px 26px rgba(51, 122, 183, 0.14);
+}
+
+.vehicle-card__media {
+  align-items: center;
+  display: flex;
+  flex: 0 0 4.5rem;
+  height: 3rem;
+  justify-content: center;
+}
+
+.vehicle-card__media img {
+  display: block;
+  max-height: 3rem;
+  max-width: 4.5rem;
+  object-fit: contain;
+}
+
+.vehicle-card__body {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.vehicle-card__title-row,
+.vehicle-card__metrics {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.vehicle-card__title {
+  font-size: 0.94rem;
+  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vehicle-card__status {
+  border-radius: 2px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 0.25rem 0.45rem;
+}
+
+.vehicle-card__status.moving {
+  background: rgba(0, 168, 96, 0.12);
+  color: #00824b;
+}
+
+.vehicle-card__status.idle {
+  background: rgba(250, 186, 87, 0.22);
+  color: #94610e;
+}
+
+.vehicle-card__status.offline {
+  background: rgba(219, 68, 55, 0.12);
+  color: #b8352b;
+}
+
+.vehicle-card__meta,
+.vehicle-card__metrics {
+  color: var(--tp-text-secondary, #526173);
+  font-size: 0.76rem;
+}
+
+.vehicle-card__metrics {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.healthy {
+  color: #00824b;
+}
+
+.warning {
+  color: #94610e;
+}
+
+.critical {
+  color: #db4437;
+  font-weight: 800;
+}

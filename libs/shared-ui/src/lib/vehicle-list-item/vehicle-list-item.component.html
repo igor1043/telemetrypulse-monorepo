@@ -1,0 +1,36 @@
+<button
+  type="button"
+  class="vehicle-card"
+  [class.vehicle-card--selected]="selected"
+  (click)="selectVehicle()"
+>
+  <span class="vehicle-card__media" aria-hidden="true">
+    <img [src]="vehicle.imageUrl" [alt]="vehicle.model" />
+  </span>
+
+  <span class="vehicle-card__body">
+    <span class="vehicle-card__title-row">
+      <span class="vehicle-card__title">{{ vehicle.model }}</span>
+      <span
+        class="vehicle-card__status"
+        [ngClass]="vehicle.status.toLowerCase()"
+      >
+        {{ statusLabel }}
+      </span>
+    </span>
+
+    <span class="vehicle-card__meta">{{ vehicle.vehicleId }}</span>
+
+    <span class="vehicle-card__metrics">
+      <span>{{ vehicle.speedKmh | number: '1.0-0' }} km/h</span>
+      <span [ngClass]="batteryClass"
+        >{{ vehicle.batteryLevel | number: '1.0-0' }}% bateria</span
+      >
+      <span>{{ vehicle.motorTemperatureCelsius | number: '1.0-0' }}°C</span>
+      <span
+        >{{ vehicle.latitude | number: '1.3-3' }},
+        {{ vehicle.longitude | number: '1.3-3' }}</span
+      >
+    </span>
+  </span>
+</button>

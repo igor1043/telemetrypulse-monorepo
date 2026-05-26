@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.field {
+  color: var(--tp-text-secondary, #4b5563);
+  display: grid;
+  font-size: 0.75rem;
+  font-weight: 700;
+  gap: 0.4rem;
+}
+
+.field__control {
+  background:
+    linear-gradient(45deg, transparent 50%, var(--tp-primary, #337ab7) 50%)
+      right 1rem top 1.12rem / 0.42rem 0.42rem no-repeat,
+    linear-gradient(135deg, var(--tp-primary, #337ab7) 50%, transparent 50%)
+      right 0.72rem top 1.12rem / 0.42rem 0.42rem no-repeat,
+    #ffffff;
+  border: 1px solid var(--tp-border, #d4dae3);
+  border-radius: 4px;
+  min-height: 2.75rem;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.field__control:focus-within {
+  border-color: var(--tp-primary, #337ab7);
+  box-shadow: 0 0 0 3px rgba(51, 122, 183, 0.14);
+}
+
+select {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--tp-text-primary, #102a43);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  min-height: 2.75rem;
+  outline: 0;
+  padding: 0 2.2rem 0 0.8rem;
+  width: 100%;
+}

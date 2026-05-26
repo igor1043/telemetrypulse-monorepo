@@ -1,0 +1,8 @@
+<span
+  class="connection"
+  [class.connected]="state === 'connected'"
+  [class.disconnected]="state === 'disconnected'"
+>
+  <span class="connection__dot"></span>
+  {{ label }}
+</span>

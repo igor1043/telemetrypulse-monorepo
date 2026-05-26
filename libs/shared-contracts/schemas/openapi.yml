@@ -1,0 +1,158 @@
+openapi: 3.1.0
+info:
+  title: TelemetryPulse API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/telemetry:
+    post:
+      summary: Ingest a telemetry reading and emit realtime events.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TelemetryIngestRequest'
+      responses:
+        '202':
+          description: Telemetry accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleStatus'
+  /api/stream:
+    get:
+      summary: Server-Sent Events stream with telemetry, alerts, snapshots and heartbeats.
+      responses:
+        '200':
+          description: Realtime event stream.
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/RealtimeEvent'
+  /api/vehicles:
+    get:
+      summary: Current status of active vehicles.
+      responses:
+        '200':
+          description: Vehicle status list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VehicleStatus'
+  /api/alerts/recent:
+    get:
+      summary: Most recent generated alerts.
+      responses:
+        '200':
+          description: Recent alerts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlertEvent'
+components:
+  schemas:
+    TelemetryIngestRequest:
+      type: object
+      required:
+        - vehicleId
+        - batteryLevel
+        - speedKmh
+        - motorTemperatureCelsius
+        - latitude
+        - longitude
+      properties:
+        vehicleId:
+          type: string
+          example: EVT-001
+        model:
+          type: string
+          example: Ford E-Transit
+        imageUrl:
+          type: string
+          example: /vehicles/sedan-silver.png
+        batteryLevel:
+          type: number
+          minimum: 0
+          maximum: 100
+        speedKmh:
+          type: number
+          minimum: 0
+        motorTemperatureCelsius:
+          type: number
+        latitude:
+          type: number
+        longitude:
+          type: number
+    VehicleStatus:
+      type: object
+      properties:
+        vehicleId:
+          type: string
+        model:
+          type: string
+        imageUrl:
+          type: string
+        status:
+          enum: [MOVING, IDLE, OFFLINE]
+        batteryLevel:
+          type: number
+        speedKmh:
+          type: number
+        motorTemperatureCelsius:
+          type: number
+        latitude:
+          type: number
+        longitude:
+          type: number
+        lastUpdatedAt:
+          type: string
+          format: date-time
+    AlertEvent:
+      type: object
+      properties:
+        id:
+          type: integer
+        vehicleId:
+          type: string
+        type:
+          enum: [SPEEDING, CRITICAL_BATTERY]
+        severity:
+          enum: [WARNING, CRITICAL]
+        message:
+          type: string
+        value:
+          type: number
+        threshold:
+          type: number
+        occurredAt:
+          type: string
+          format: date-time
+    RealtimeEvent:
+      oneOf:
+        - type: object
+          properties:
+            eventType:
+              const: TELEMETRY
+            vehicle:
+              $ref: '#/components/schemas/VehicleStatus'
+        - type: object
+          properties:
+            eventType:
+              const: ALERT
+            alert:
+              $ref: '#/components/schemas/AlertEvent'
+            vehicle:
+              $ref: '#/components/schemas/VehicleStatus'
+        - type: object
+          properties:
+            eventType:
+              const: HEARTBEAT
+            emittedAt:
+              type: string
+              format: date-time

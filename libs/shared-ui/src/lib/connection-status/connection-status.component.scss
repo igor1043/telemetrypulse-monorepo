@@ -1,0 +1,35 @@
+:host {
+  display: inline-flex;
+}
+
+.connection {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--tp-border, #d4dae3);
+  border-radius: 4px;
+  color: var(--tp-text-secondary, #526173);
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 700;
+  gap: 0.45rem;
+  line-height: 1;
+  padding: 0.55rem 0.75rem;
+}
+
+.connection__dot {
+  background: #faba57;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(250, 186, 87, 0.16);
+  height: 0.55rem;
+  width: 0.55rem;
+}
+
+.connection.connected .connection__dot {
+  background: #00a860;
+  box-shadow: 0 0 0 4px rgba(0, 168, 96, 0.16);
+}
+
+.connection.disconnected .connection__dot {
+  background: #db4437;
+  box-shadow: 0 0 0 4px rgba(219, 68, 55, 0.16);
+}

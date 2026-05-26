@@ -1,0 +1,12 @@
+<label class="field">
+  <span class="field__label">{{ label }}</span>
+  <span class="field__control">
+    <select [value]="value" (change)="updateValue($any($event.target).value)">
+      @for (option of options; track option.value) {
+        <option [value]="option.value">
+          {{ option.label }}
+        </option>
+      }
+    </select>
+  </span>
+</label>
