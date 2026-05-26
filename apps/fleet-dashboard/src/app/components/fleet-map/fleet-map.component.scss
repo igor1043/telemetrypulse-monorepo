@@ -1,0 +1,147 @@
+:host,
+.map-shell,
+.map-host {
+  display: block;
+  height: 100%;
+  min-height: inherit;
+  width: 100%;
+}
+
+.map-shell {
+  overflow: hidden;
+  position: relative;
+}
+
+.map-host,
+.car-layer {
+  inset: 0;
+  position: absolute;
+}
+
+.car-layer {
+  opacity: 1;
+  pointer-events: none;
+  z-index: 450;
+}
+
+:host ::ng-deep .leaflet-container {
+  background: #eef3f7;
+  color: var(--tp-text-primary, #102a43);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+}
+
+:host ::ng-deep .tp-vehicle-marker {
+  align-items: center;
+  display: flex;
+  height: 4rem;
+  justify-content: center;
+  position: relative;
+  width: 4rem;
+}
+
+:host ::ng-deep .tp-vehicle-marker__hitbox {
+  background: transparent;
+  border-radius: 999px;
+  display: block;
+  height: 4rem;
+  width: 4rem;
+}
+
+:host ::ng-deep .leaflet-popup-pane {
+  z-index: 1400 !important;
+}
+
+:host ::ng-deep .leaflet-popup {
+  z-index: 1401 !important;
+}
+
+:host ::ng-deep .leaflet-popup-content-wrapper {
+  border-radius: 4px;
+  box-shadow: 0 18px 36px rgba(16, 42, 67, 0.18);
+}
+
+:host ::ng-deep .tp-map-popup {
+  min-width: 19rem;
+}
+
+:host ::ng-deep .tp-map-popup header {
+  align-items: center;
+  border-bottom: 1px solid var(--tp-border, #d4dae3);
+  display: flex;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+:host ::ng-deep .material-symbols-rounded {
+  color: #aab7c7;
+  font-family: 'Material Symbols Rounded';
+  font-size: 1.55rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+}
+
+:host ::ng-deep .tp-map-popup header > .material-symbols-rounded {
+  color: var(--tp-primary, #337ab7);
+  font-size: 1.5rem;
+}
+
+:host ::ng-deep .tp-map-popup strong {
+  font-size: 0.95rem;
+}
+
+:host ::ng-deep .tp-map-popup span,
+:host ::ng-deep .tp-map-popup dt {
+  color: var(--tp-text-secondary, #526173);
+  font-size: 0.72rem;
+}
+
+:host ::ng-deep .tp-map-popup__metrics {
+  display: grid;
+  gap: 0.7rem 0.85rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+:host ::ng-deep .tp-map-popup__metric {
+  align-items: center;
+  display: flex;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+:host ::ng-deep .tp-map-popup__metric > .material-symbols-rounded {
+  flex: 0 0 1.65rem;
+  font-size: 1.65rem;
+}
+
+:host ::ng-deep .tp-map-popup__metric div {
+  display: grid;
+  gap: 0.06rem;
+  min-width: 0;
+}
+
+:host ::ng-deep .tp-map-popup dd {
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .tp-map-popup__metric--gps dd {
+  font-size: 0.68rem;
+  line-height: 1.18;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}

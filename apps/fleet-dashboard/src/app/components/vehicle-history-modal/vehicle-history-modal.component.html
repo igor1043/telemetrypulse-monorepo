@@ -1,0 +1,62 @@
+@if (state.isOpen) {
+<div class="history-modal-backdrop">
+  <section
+    class="history-modal"
+    aria-label="Histórico de telemetria do veículo"
+  >
+    <header>
+      <div>
+        <span class="eyebrow">Histórico de telemetria</span>
+        <h2>{{ state.vehicleId }}</h2>
+      </div>
+
+      <button
+        type="button"
+        class="history-modal__close"
+        aria-label="Fechar histórico"
+        (click)="close()"
+      >
+        ×
+      </button>
+    </header>
+
+    @if (state.isLoading) {
+    <p class="history-modal__state">Carregando leituras...</p>
+    } @else if (state.error) {
+    <p class="history-modal__state error">{{ state.error }}</p>
+    } @else if (state.readings.length) {
+    <div class="history-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Bateria</th>
+            <th>Velocidade</th>
+            <th>Temperatura</th>
+            <th>GPS</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (reading of state.readings; track reading.recordedAt) {
+          <tr>
+            <td>{{ reading.recordedAt | date: 'dd/MM HH:mm:ss' }}</td>
+            <td>{{ reading.batteryLevel | number: '1.0-0' }}%</td>
+            <td>{{ reading.speedKmh | number: '1.0-0' }} km/h</td>
+            <td>{{ reading.motorTemperatureCelsius | number: '1.0-0' }}°C</td>
+            <td>
+              {{ reading.latitude | number: '1.5-5' }},
+              {{ reading.longitude | number: '1.5-5' }}
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    } @else {
+    <p class="history-modal__state">
+      Nenhuma leitura encontrada para o período.
+    </p>
+    }
+  </section>
+</div>
+}
