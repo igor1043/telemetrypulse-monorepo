@@ -1,0 +1,122 @@
+@if (vm$ | async; as vm) {
+<main class="dashboard-shell">
+  <header class="top-bar">
+    <div class="brand-lockup">
+      <img src="/ford-logo.png" alt="Ford" />
+      <div>
+        <span class="eyebrow">TelemetryPulse</span>
+        <h1>Monitoramento da frota elétrica</h1>
+      </div>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <section class="map-panel" aria-label="Mapa de telemetria da frota">
+      <tp-fleet-map
+        [vehicles]="vm.vehicles"
+        [selectedVehicleId]="vm.selectedVehicleId"
+        [selectionRevision]="vm.selectionRevision"
+        [suspend3dOverlay]="vm.historyModal.isOpen"
+        (vehicleSelected)="selectVehicle($event)"
+      />
+    </section>
+
+    <aside class="fleet-sidebar" aria-label="Veículos e alertas">
+      <header class="sidebar-header">
+        <div class="sidebar-heading">
+          <span class="eyebrow">Veículos ativos monitorados</span>
+          <h2>Frota em tempo real</h2>
+          <span class="fleet-count">{{ vm.totalVehicles }} veículos</span>
+        </div>
+
+        @if (vm.selectedVehicle; as selectedVehicle) {
+        <div class="selected-summary" aria-label="Veículo selecionado">
+          <img [src]="selectedVehicle.imageUrl" [alt]="selectedVehicle.model" />
+
+          <div class="selected-summary__details">
+            <span>Veículo selecionado</span>
+            <dl>
+              <div>
+                <dt>Placa</dt>
+                <dd>{{ selectedVehicle.vehicleId }}</dd>
+              </div>
+              <div>
+                <dt>Tipo</dt>
+                <dd>{{ selectedVehicle.model }}</dd>
+              </div>
+            </dl>
+            <button
+              type="button"
+              class="history-trigger"
+              (click)="openVehicleHistory(selectedVehicle.vehicleId)"
+            >
+              Histórico
+            </button>
+          </div>
+        </div>
+        }
+      </header>
+
+        <div class="filters">
+          <tp-ford-search-input
+            label="Buscar veículo"
+          placeholder="ID ou modelo"
+          [value]="vm.vehicleQuery"
+            (valueChange)="updateVehicleQuery($event)"
+          />
+        </div>
+
+      <section class="vehicle-list" aria-label="Lista de veículos">
+        @for (vehicle of vm.vehicles; track vehicle.vehicleId) {
+        <tp-vehicle-list-item
+          [vehicle]="vehicle"
+          [selected]="vehicle.vehicleId === vm.selectedVehicleId"
+          (selectedVehicle)="selectVehicle($event)"
+        />
+        } @empty {
+        <p class="empty-state">Nenhum veículo corresponde ao filtro.</p>
+        }
+      </section>
+
+      <section class="alerts-panel" aria-label="Alertas recentes">
+          <div class="section-title">
+            <h2>Alertas recentes</h2>
+            <span>{{ vm.alerts.length }}</span>
+          </div>
+
+          <tp-ford-select
+            label="Tipo de alerta"
+            [options]="alertTypeOptions"
+            [value]="vm.alertType"
+            (valueChange)="updateAlertType($event)"
+          />
+
+          <div class="alert-list">
+          @for (alert of vm.alerts; track alert.id) {
+          <article class="alert-card" [ngClass]="alert.severity.toLowerCase()">
+            <div>
+              <strong>{{ alert.message }}</strong>
+              <span
+                >{{ alert.vehicleId }} · {{ alert.occurredAt | date: 'HH:mm:ss'
+                }}</span
+              >
+            </div>
+            <small
+              >{{ alert.value | number: '1.0-0' }} / {{ alert.threshold |
+              number: '1.0-0' }}</small
+            >
+          </article>
+          } @empty {
+          <p class="empty-state">Sem alertas para o filtro atual.</p>
+          }
+        </div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<tp-vehicle-history-modal
+  [state]="vm.historyModal"
+  (closed)="closeVehicleHistory()"
+/>
+}
