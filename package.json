@@ -3,13 +3,19 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:frontend": "nx serve fleet-dashboard",
+    "start": "nx serve fleet-dashboard --port 4200",
+    "start:local": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\\start-local.ps1",
+    "start:frontend": "nx serve fleet-dashboard --port 4200",
     "start:backend": "nx serve telemetry-processor",
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
     "lint": "nx run-many -t lint"
   },
   "private": true,
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
+  },
   "devDependencies": {
     "@analogjs/vite-plugin-angular": "~2.1.2",
     "@analogjs/vitest-angular": "~2.1.2",

@@ -2,7 +2,17 @@
 
 Monorepo para monitoramento em tempo real de uma frota de veiculos eletricos.
 
-O projeto implementa ingestao de telemetria, processamento de alertas, persistencia historica e um dashboard Angular reativo com mapa, lista de veiculos, alertas recentes e visualizacao 3D dos veiculos sobre um mapa gratuito.
+O projeto implementa ingestao de telemetria, processamento de alertas, persistencia historica e um dashboard Angular reativo com mapa, lista de veiculos, alertas recentes, historico e visualizacao 3D dos veiculos sobre um mapa gratuito.
+
+## Demonstracao
+
+Video: [TelemetryPulse - demonstracao do dashboard](https://youtu.be/6XC-aX-9Smk)
+
+![Dashboard com mapa e frota monitorada](docs/images/dashboard-map.png)
+
+![Popup do veiculo no mapa](docs/images/vehicle-popup.png)
+
+![Historico de telemetria do veiculo](docs/images/telemetry-history.png)
 
 ## Decisoes principais
 
@@ -13,11 +23,11 @@ O projeto implementa ingestao de telemetria, processamento de alertas, persisten
 - Mapa gratuito com Leaflet, CartoDB Positron e OpenStreetMap.
 - Visualizacao 3D dos veiculos com modelo GLB renderizado em camada Three.js sobre o mapa.
 - Biblioteca `shared-ui` com componentes reutilizaveis de interface.
-- Biblioteca `shared-contracts` com tipos TypeScript e OpenAPI.
+- Biblioteca `shared-contracts` com tipos TypeScript, labels centralizados e OpenAPI.
 
 ## Referencia visual
 
-A interface foi inspirada no estudo publico [Ford Pro Design System, de Chris Kennedy](https://www.chriskennedydesigns.com/ford). Essa referencia foi usada apenas como base conceitual para simular um fluxo real de desenvolvimento com design system: tokens visuais, campos de busca, dropdowns, cards e componentes reutilizaveis.
+A interface foi inspirada no estudo publico [Ford Pro Design System, de Chris Kennedy](https://www.chriskennedydesigns.com/ford). Essa referencia foi usada apenas como base conceitual para simular um fluxo real de desenvolvimento com design system: tokens visuais, campos de busca, dropdowns, cards, lista de veiculos e componentes reutilizaveis.
 
 Esse projeto nao usa, nao distribui e nao representa um design system oficial da Ford.
 
@@ -25,59 +35,59 @@ Esse projeto nao usa, nao distribui e nao representa um design system oficial da
 
 ```text
 telemetrypulse-monorepo/
-├── apps/
-│   ├── fleet-dashboard/          # Angular dashboard
-│   └── telemetry-processor/      # Spring Boot backend
-├── libs/
-│   ├── shared-ui/                # Componentes Angular reutilizaveis
-│   └── shared-contracts/         # Tipos e contrato OpenAPI
-├── infra/nginx/                  # Configuracao do frontend em Docker
-├── scripts/                      # Scripts auxiliares para ambiente local
-├── docker-compose.yml
-├── nx.json
-└── README.md
+|-- apps/
+|   |-- fleet-dashboard/          # Angular dashboard
+|   `-- telemetry-processor/      # Spring Boot backend
+|-- libs/
+|   |-- shared-ui/                # Componentes Angular reutilizaveis
+|   `-- shared-contracts/         # Tipos e contrato OpenAPI
+|-- docs/images/                  # Prints usados na documentacao
+|-- infra/nginx/                  # Configuracao do frontend em Docker
+|-- scripts/                      # Scripts auxiliares para ambiente local
+|-- docker-compose.yml
+|-- nx.json
+`-- README.md
 ```
 
 ## Pre-requisitos
 
 Para rodar localmente:
 
-- Node.js 22+
-- npm 10+
-- Java 21
+- Node.js 22 ou superior.
+- npm 10 ou superior.
+- Java 21.
 
 Opcional:
 
 - Docker e Docker Compose para subir frontend, backend e Postgres juntos.
+
+No Windows, se houver mais de uma versao de Java instalada, garanta que o terminal esteja usando Java 21:
+
+```powershell
+$env:JAVA_HOME="C:\Program Files\Java\jdk-21"
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+java -version
+```
 
 ## Instalacao
 
 Depois de clonar o repositorio:
 
 ```powershell
+cd telemetrypulse-monorepo
 npm ci
 ```
 
+O backend usa Maven Wrapper, entao nao e necessario instalar Maven globalmente.
+
 ## Rodando localmente
 
-### Opcao 1: scripts Windows
+### Caminho recomendado no Windows
 
-Backend:
-
-```powershell
-.\scripts\start-backend.ps1
-```
-
-Frontend:
+Subir backend e frontend em terminais separados automaticamente:
 
 ```powershell
-.\scripts\start-frontend.ps1
-```
-
-Ou subir os dois:
-
-```powershell
-.\scripts\start-local.ps1
+npm run start:local
 ```
 
 URLs:
@@ -86,13 +96,27 @@ URLs:
 - Backend health: http://localhost:8080/actuator/health
 - H2 console: http://localhost:8080/h2-console
 
-Se quiser trocar a porta do frontend:
+### Rodar em dois terminais
+
+Terminal 1, backend:
 
 ```powershell
-npx nx serve fleet-dashboard --port 4020
+npm run start:backend
 ```
 
-### Opcao 2: comandos diretos
+Terminal 2, frontend:
+
+```powershell
+npm run start:frontend
+```
+
+Tambem e possivel usar o atalho padrao apenas para o frontend:
+
+```powershell
+npm start
+```
+
+### Comandos diretos
 
 Backend no Windows:
 
@@ -111,7 +135,13 @@ cd apps/telemetry-processor
 Frontend:
 
 ```powershell
-npx nx serve fleet-dashboard
+npx nx serve fleet-dashboard --port 4200
+```
+
+Se quiser trocar a porta do frontend:
+
+```powershell
+npx nx serve fleet-dashboard --port 4020
 ```
 
 ## Rodando com Docker
